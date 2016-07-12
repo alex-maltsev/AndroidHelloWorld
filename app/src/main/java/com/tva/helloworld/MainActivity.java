@@ -19,15 +19,24 @@ public class MainActivity extends AppCompatActivity {
         colorView = findViewById(R.id.colorView);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == ColorActivity.COLOR_REQUEST && resultCode == RESULT_OK) {
+            int colorId = data.getIntExtra(ColorActivity.COLOR_EXTRA_ID, R.color.colorPrimary);
+            colorView.setBackgroundColor(colorId);
+        }
+    }
+
     public void showRatingActivityClicked(View view) {
         float numStars = ratingBar.getRating();
 
         Intent intent = new Intent(this, RatingActivity.class);
-        intent.putExtra("NUMBER_OF_STARS", numStars);
+        intent.putExtra(RatingActivity.NUMBER_OF_STARS_EXTRA_ID, numStars);
         startActivity(intent);
     }
 
     public void showColorActivityClicked(View view) {
-
+        Intent intent = new Intent(this, ColorActivity.class);
+        startActivityForResult(intent, ColorActivity.COLOR_REQUEST);
     }
 }
